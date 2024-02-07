@@ -28,10 +28,10 @@ export const isAdmin = (req, res, next) => {
   };
 
 //   autorizacion si sos usuario
-  export const isUsuario = (req, res, next) => {
+export const isUsuario = (req, res, next) => {
     console.log(req.session)
     if (req.session.rol === 'usuario') {
       return;
     } 
     next();
-  };
+};
