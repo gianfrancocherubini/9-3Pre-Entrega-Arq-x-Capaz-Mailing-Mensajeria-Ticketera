@@ -1,0 +1,14 @@
+{{>menu}}
+
+<h2>Perfil {{usuario.nombre}}</h2>
+<hr>
+<p>Nombre: {{usuario.nombre}} -  Correo Electrónico: <strong>{{usuario.email}}</strong></p>
+<a href="/carrito/{{usuario.carrito}}">Ver Carrito</a>
+
+<hr>
+
+<form action="/consultasWs" method="POST">
+  <label for="problema">Consultas:</label><br>
+  <textarea id="problema" name="problema" rows="4" cols="50"></textarea><br><br>
+  <input type="submit" value="Enviar">
+</form>
