@@ -22,7 +22,10 @@ const ticketSchema = new mongoose.Schema({
         required: true
     }
 }, {
-    timestamps: true,
+    timestamps: {
+        updatedAt:'DateUltimateMod',
+        createdAt:'DateOn'
+    },
     strict: false
 });
 

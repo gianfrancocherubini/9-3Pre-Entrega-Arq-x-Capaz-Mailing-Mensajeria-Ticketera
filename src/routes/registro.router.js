@@ -4,6 +4,6 @@ import { RegistroController} from '../controller/registro.controller.js';
 
 export const router=Router()
 
-router.get('/errorRegistro',RegistroController.registroError)
+router.get('/errorRegistro',RegistroController.registroError);
 router.post('/', passport.authenticate('registro', {failureRedirect: '/api/registro/errorRegistro'}), RegistroController.registro);
 

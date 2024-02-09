@@ -24,12 +24,20 @@
 
 <script>
   const eliminarProducto=async(id, carrito)=>{
-    let resultado=await fetch("/api/carts/{{usuario.carrito}}/product/"+id,{
+      let resultado=await fetch("/api/carts/{{usuario.carrito}}/product/"+id,{
       method:"delete"
     })
-    let datos=await resultado.json()
-    console.log(datos)
-    location.reload();
+
+    if(resultado.ok){
+      const confirmacion = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
+      if (confirmacion) {
+          window.alert('Tu producto se ha eliminado correctamente.');
+          let datos = await resultado.json();
+          console.log(datos);
+          location.reload();
+      }
+    }
+
   }
 
 </script>
