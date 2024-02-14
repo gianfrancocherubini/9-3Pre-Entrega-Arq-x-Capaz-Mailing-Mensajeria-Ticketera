@@ -7,7 +7,7 @@ export class ProductsMongoDao {
             const products = await ProductEsquema.find({ ...query, deleted: false }).lean();
             return products;
         } catch (error) {
-            console.error("Error al obtener productos:", error);
+            console.log("Error al obtener productos:", error);
             throw error;
         }
     }
@@ -17,7 +17,7 @@ export class ProductsMongoDao {
             const product = await ProductEsquema.findById({ _id: productId, deleted: false });
             return product;
         } catch (error) {
-            console.error("Error al obtener producto por ID:", error);
+            console.log("Error al obtener producto por ID:", error);
             throw error;
         }
     }
@@ -27,7 +27,7 @@ export class ProductsMongoDao {
             const productCode = await ProductEsquema.findOne({ code: productByCode });
             return productCode;
         } catch (error) {
-            console.error("Error al obtener producto por código:", error);
+            console.log("Error al obtener producto por código:", error);
             throw error;
         }
     }
@@ -37,7 +37,7 @@ export class ProductsMongoDao {
             const newProduct = await ProductEsquema.create(product);
             return newProduct;
         } catch (error) {
-            console.error("Error al crear producto:", error);
+            console.log("Error al crear producto:", error);
             throw error;
         }
     }
@@ -51,7 +51,7 @@ export class ProductsMongoDao {
             );
             return updatedProduct;
         } catch (error) {
-            console.error("Error al actualizar producto:", error);
+            console.log("Error al actualizar producto:", error);
             throw error;
         }
     }

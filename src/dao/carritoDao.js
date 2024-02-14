@@ -9,7 +9,7 @@ export class CarritoMongoDao {
             await newCart.save();
             return newCart;
         } catch (error) {
-            console.error("Error al crear un carrito vacío:", error);
+            console.log("Error al crear un carrito vacío:", error);
             throw error;
         }
     }
@@ -19,7 +19,7 @@ export class CarritoMongoDao {
             const cart = await Cart.findById(cartId).populate('items.product').lean();
             return cart;
         } catch (error) {
-            console.error("Error al obtener el carrito por ID:", error);
+            console.log("Error al obtener el carrito por ID:", error);
             throw error;
         }
     }
@@ -51,7 +51,7 @@ export class CarritoMongoDao {
             const updatedCart = await Cart.findById(cartId);
             return updatedCart;
         } catch (error) {
-            console.error("Error al añadir producto al carrito:", error);
+            console.log("Error al añadir producto al carrito:", error);
             throw error;
         }
     }
@@ -77,7 +77,7 @@ export class CarritoMongoDao {
             const updatedCart = await Cart.findById(cartId);
             return updatedCart;
         } catch (error) {
-            console.error("Error al eliminar producto del carrito:", error);
+            console.log("Error al eliminar producto del carrito:", error);
             throw error;
         }
     }
@@ -92,7 +92,7 @@ export class CarritoMongoDao {
             // Elimina el carrito directamente
             return await Cart.findByIdAndDelete(cartId);
         } catch (error) {
-            console.error("Error al eliminar el carrito:", error);
+            console.log("Error al eliminar el carrito:", error);
             throw error;
         }
     }
