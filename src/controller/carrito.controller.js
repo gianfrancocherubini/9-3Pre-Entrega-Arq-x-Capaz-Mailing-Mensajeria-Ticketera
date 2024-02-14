@@ -1,7 +1,7 @@
 // import { CarritoMongoDao } from "../dao/carritoDao.js";
 // const cm = new CarritoMongoDao();
 
-import { CarritoService } from "../services/carrito.service.js";
+import { CarritoService } from "../repository/carrito.service.js";
 const carritoService = new CarritoService();
 
  export class CarritoController {

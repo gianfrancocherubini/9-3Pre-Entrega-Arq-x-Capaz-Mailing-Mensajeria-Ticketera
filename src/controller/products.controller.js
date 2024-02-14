@@ -1,7 +1,7 @@
 import validUrl from 'valid-url'
 // import { ProductsMongoDao } from "../dao/productsDao.js";
 // const productsDao = new ProductsMongoDao();
-import { ProductsService } from '../services/products.service.js';
+import { ProductsService } from '../repository/products.service.js';
 const productsService = new ProductsService();
 
 export class ProductsController{
