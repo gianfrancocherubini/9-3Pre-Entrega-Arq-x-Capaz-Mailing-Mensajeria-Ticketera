@@ -153,6 +153,15 @@ const ticketDao = new ticketMongoDao();
                     }
                 }
             }
+    
+            const ticketCode = await ticketDao.generaCode();
+            const ticket = await ticketDao.creaTicket(usuario.email, totalAmount);
+    
+            const ticketDetails = {
+                purchaser: usuario.email,
+                code: ticket.code,
+                purchase_datetime: ticket.purchase_datetime,
+                amount: totalAmount
             };
     
             cart.items = [];
