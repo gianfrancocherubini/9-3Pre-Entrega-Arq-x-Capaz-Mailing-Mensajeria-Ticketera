@@ -1,4 +1,4 @@
-// autorizacion de acceso a perfil ñluego de login
+// autorizacion de acceso a perfil luego de login
 export const auth2 = (req, res, next) => {
     if (req.session.usuario) {
         res.status(401).redirect('/perfil'); 

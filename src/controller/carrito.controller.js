@@ -1,8 +1,11 @@
 // import { CarritoMongoDao } from "../dao/carritoDao.js";
 // const cm = new CarritoMongoDao();
-
+import { ticketMongoDao } from "../dao/ticketDao.js";
 import { CarritoService } from "../repository/carrito.service.js";
+import { ProductsService } from "../repository/products.service.js";
+const productService = new ProductsService();
 const carritoService = new CarritoService();
+const ticketDao = new ticketMongoDao();
 
  export class CarritoController {
     constructor(){}
@@ -115,4 +118,54 @@ const carritoService = new CarritoService();
             res.status(500).json({ error: 'Error al eliminar el producto del carrito.' });
         }
     }
+
+    static async purchaseTicket(req, res) {
+        try {
+            const cartId = req.params.cid;
+            const cart = await carritoService.cartById(cartId);
+    
+            if (!cart) {
+                res.setHeader('Content-Type', 'application/json');
+                res.status(404).json({ error: 'Carrito no encontrado.' });
+                return;
+            }
+    
+            const usuario = req.session.usuario;
+            const productsCarts = cart.items;
+            let totalAmount = 0;
+    
+            for (const item of productsCarts) {
+                const product = await productService.getProductById(item._id);
+    
+                if (!product || !product.price) {
+                    continue;
+                }
+    
+                if (item.quantity <= product.stock) {
+                    product.stock -= item.quantity;
+                    await product.save();
+    
+                    totalAmount += product.price * item.quantity;
+    
+                    if (product.stock === 0) {
+                        product.deleted = true;
+                        await product.save();
+                    }
+                }
+            }
+            };
+    
+            cart.items = [];
+            await cart.save();
+    
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json({ ticket: ticketDetails, message: 'Ticket generado correctamente' });
+            console.log(ticketDetails);
+        } catch (error) {
+            console.error(error);
+            res.setHeader('Content-Type', 'application/json');
+            res.status(500).json({ error: 'Error al generar ticket.' });
+        }
+    }
+
 }
