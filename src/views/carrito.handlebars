@@ -13,6 +13,7 @@
                     <button onclick="eliminarProducto('{{this.product._id}}', '{{usuario.carrito}}')">Eliminar del carrito</button>
                 </li>
             {{/each}}
+            <h3>Total: </h3>
             <button onclick="realizarCompra('{{usuario.carrito}}')">Comprar</button>
         </ul>
 
@@ -29,13 +30,10 @@
     })
 
     if(resultado.ok){
-      const confirmacion = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
-      if (confirmacion) {
-          window.alert('Tu producto se ha eliminado correctamente.');
-          let datos = await resultado.json();
-          console.log(datos);
-          location.reload();
-      }
+        if(resultado.ok){
+            alert('Tu producto se ha eliminado correctamente.');
+            location.reload();
+        }
     }
 
   }
