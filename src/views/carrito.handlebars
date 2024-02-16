@@ -13,7 +13,7 @@
                     <button onclick="eliminarProducto('{{this.product._id}}', '{{usuario.carrito}}')">Eliminar del carrito</button>
                 </li>
             {{/each}}
-            <h3>Total: </h3>
+            <h3>Total: {{totalCartPrice}} </h3>
             <button onclick="realizarCompra('{{usuario.carrito}}')">Comprar</button>
         </ul>
 
@@ -30,10 +30,8 @@
     })
 
     if(resultado.ok){
-        if(resultado.ok){
-            alert('Tu producto se ha eliminado correctamente.');
-            location.reload();
-        }
+        alert('Tu producto se ha eliminado correctamente.');
+        location.reload();
     }
 
   }
@@ -43,14 +41,10 @@
         method: "post"
     })
     if(resultado.ok){
-        const confirmacion = window.confirm('¿Estás seguro de que deseas realizar la compra?');
-        if(confimacion){
-            window.alert('Tu compra ha sido realizada correctamente');
-            let datos = await resultado.json();
-            console.log(datos);
-            location.reload();
+        window.alert('Tu compra ha sido realizada correctamente');
+        location.reload();
         }
     }
-  }
+  
 
 </script>

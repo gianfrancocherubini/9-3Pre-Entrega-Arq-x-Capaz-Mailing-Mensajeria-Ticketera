@@ -41,9 +41,19 @@ const ticketDao = new ticketMongoDao();
                 res.status(404).json({ error: 'Carrito no encontrado.' });
                 return;
             }
+            const items = cart.items;
+
+            const totalCartPrice = () => {
+                let total = 0;
+                items.forEach(item => {
+                    total += item.product.price * item.quantity;
+                });
+                return total.toFixed(2);
+            };
+    
             let usuario = req.session.usuario;
             res.setHeader('Content-Type', 'text/html');
-            res.status(200).render('carrito', {carts : cart, usuario, login : true}) ;
+            res.status(200).render('carrito', {carts : cart, usuario, login : true, totalCartPrice: totalCartPrice}) ;
             console.log('Carrito:', cart._id , 'con los items:', cart.items)
         } catch (error) {
             console.error(error);
@@ -121,6 +131,7 @@ const ticketDao = new ticketMongoDao();
 
     static async purchaseTicket(req, res) {
         try {
+            const usuario = req.session.usuario;
             const cartId = req.params.cid;
             const cart = await carritoService.cartById(cartId);
     
@@ -130,29 +141,25 @@ const ticketDao = new ticketMongoDao();
                 return;
             }
     
-            const usuario = req.session.usuario;
-            const productsCarts = cart.items;
+            const productsCarts = cart.items.slice();
             let totalAmount = 0;
-    
-            for (const item of productsCarts) {
-                const product = await productService.getProductById(item._id);
-    
-                if (!product || !product.price) {
-                    continue;
+
+            productsCarts.forEach(async item => {
+                totalAmount += item.product.price * item.quantity;
+
+                if(item.quantity <= item.product.stock){
+                    const updatedStock = item.product.stock - item.quantity;
+                    await productService.update(item.product._id, { stock: updatedStock });
                 }
-    
-                if (item.quantity <= product.stock) {
-                    product.stock -= item.quantity;
-                    await product.save();
-    
-                    totalAmount += product.price * item.quantity;
-    
-                    if (product.stock === 0) {
-                        product.deleted = true;
-                        await product.save();
-                    }
+                if(item.quantity === item.product.stock){
+                    const updatedStock = item.product.stock - item.quantity;
+                    await productService.update(item.product._id, { stock: updatedStock, deleted: true });
                 }
-            }
+                
+            });
+                
+
+            totalAmount = totalAmount.toFixed(2); 
     
             const ticketCode = await ticketDao.generaCode();
             const ticket = await ticketDao.creaTicket(usuario.email, totalAmount);
@@ -160,12 +167,14 @@ const ticketDao = new ticketMongoDao();
             const ticketDetails = {
                 purchaser: usuario.email,
                 code: ticket.code,
+                amount: totalAmount,
                 purchase_datetime: ticket.purchase_datetime,
-                amount: totalAmount
             };
+
+            for (const item of productsCarts) {
+                await carritoService.deleteProduct(cartId, item.product._id);
+            }
     
-            cart.items = [];
-            await cart.save();
     
             res.setHeader('Content-Type', 'application/json');
             res.status(200).json({ ticket: ticketDetails, message: 'Ticket generado correctamente' });
