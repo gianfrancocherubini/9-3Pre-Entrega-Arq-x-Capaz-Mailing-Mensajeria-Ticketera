@@ -5,7 +5,8 @@ export class ticketMongoDao {
     async generaCode() {
         const lastTicket = await TicketEsquema.findOne().sort({ code: -1 });
         const nextTicketNumber = lastTicket ? parseInt(lastTicket.code.replace('TICKET-', '')) + 1 : 1;
-        return `TICKET-${nextTicketNumber}`;
+        let nextTicketCode =nextTicketNumber.toString().padStart(8, '0');
+        return `TICKET-${nextTicketCode}`;
     }
 
     async creaTicket(purchaserEmail, totalAmount) {

@@ -161,7 +161,6 @@ const ticketDao = new ticketMongoDao();
 
             totalAmount = totalAmount.toFixed(2); 
     
-            const ticketCode = await ticketDao.generaCode();
             const ticket = await ticketDao.creaTicket(usuario.email, totalAmount);
     
             const ticketDetails = {

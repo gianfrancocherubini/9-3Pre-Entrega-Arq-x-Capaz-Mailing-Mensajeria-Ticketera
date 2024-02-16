@@ -20,7 +20,6 @@ export const auth = (req, res, next) => {
 
 // autorizacion si sos administrador
 export const isAdmin = (req, res, next) => {
-    console.log(req.session)
     if (req.session.rol === 'administrador') {
       return;
     } 
@@ -29,7 +28,6 @@ export const isAdmin = (req, res, next) => {
 
 //   autorizacion si sos usuario
 export const isUsuario = (req, res, next) => {
-    console.log(req.session)
     if (req.session.rol === 'usuario') {
       return;
     } 
