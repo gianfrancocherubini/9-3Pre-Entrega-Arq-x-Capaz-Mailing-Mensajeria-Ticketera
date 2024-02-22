@@ -14,6 +14,7 @@ import { router as routerProducts } from './routes/products.router.js';
 import { router as routerRegistro } from './routes/registro.router.js';
 import { router as routerLogin } from './routes/login.router.js';
 import { router as routerPerfil } from './routes/perfil.router.js';
+import { router as routerMock } from './routes/mocking.router.js';
 import { router as vistasRouter } from './routes/vistas.router.js';
 
 
@@ -50,10 +51,11 @@ app.use(cookieParser());
 
 app.use('/', vistasRouter)
 app.use('/api/products', routerProducts);
-app.use('/api/carts', routerCarrito)
+app.use('/api/carts', routerCarrito);
 app.use('/api/registro', routerRegistro)
-app.use('/api/perfil', routerPerfil)
-app.use('/api/login', routerLogin)
+app.use('/api/perfil', routerPerfil);
+app.use('/api/login', routerLogin);
+app.use('/mockingproducts', routerMock);
 
 
 
