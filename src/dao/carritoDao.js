@@ -19,7 +19,7 @@ export class CarritoMongoDao {
             const cart = await Cart.findById(cartId).populate('items.product').lean();
             return cart;
         } catch (error) {
-            console.log("Error al obtener el carrito por ID:", error);
+            console.log("Error al obtener el carrito por ID:");
             throw error;
         }
     }

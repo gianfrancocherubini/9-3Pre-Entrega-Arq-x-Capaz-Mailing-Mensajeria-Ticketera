@@ -17,7 +17,6 @@ const ticketDao = new ticketMongoDao();
             res.setHeader('Content-Type', 'application/json');
             res.status(201).json({ success: true, message: 'Carrito creado correctamente.', cart: newCart });
         } catch (error) {
-            console.error(error);
             res.setHeader('Content-Type', 'application/json');
             res.status(500).json({ error: 'Error al crear el carrito.' });
         }
